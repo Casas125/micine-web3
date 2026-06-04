@@ -21,3 +21,4 @@ Una aplicación web3 completa (Full-Stack) para la gestión y compra de boletos 
 *   **Aplicación en Producción:** [https://micine.netlify.app](https://micine.netlify.app)
 # micine-web3
 # micine-web3
+# micine-web3
