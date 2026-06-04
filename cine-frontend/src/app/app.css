@@ -1,0 +1,313 @@
+/* --- Contenedor Global Estilo Dark Mode --- */
+.cine-container { 
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+  background-color: #0f1115; 
+  color: #ffffff; 
+  min-height: 100vh; 
+  padding: 30px; 
+}
+h1, h2, h3 { color: #ffffff; }
+hr { border-color: #1f2937; margin: 25px 0; }
+
+/* --- Cabecera --- */
+.header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+.btn-conectar { background-color: #f6851b; color: white; padding: 10px 20px; border-radius: 8px; font-weight: bold; border: none; cursor: pointer; transition: 0.2s; }
+.btn-conectar:hover { background-color: #e27618; transform: scale(1.05); }
+
+/* --- PANTALLA 1: Catálogo Grid --- */
+.grid-peliculas { 
+  display: grid; 
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
+  gap: 25px; 
+  margin-top: 20px; 
+}
+
+.tarjeta-pelicula { 
+  background-color: #1a222c; 
+  border-radius: 12px; 
+  overflow: hidden; 
+  transition: transform 0.2s, box-shadow 0.2s; 
+  display: flex; 
+  flex-direction: column; 
+}
+.tarjeta-pelicula:hover { 
+  transform: translateY(-5px); 
+  box-shadow: 0 8px 20px rgba(0, 180, 216, 0.2); 
+}
+
+.tarjeta-pelicula img { 
+  width: 100%; 
+  height: 320px; 
+  object-fit: cover; 
+} 
+
+.tarjeta-pelicula h3 { margin: 15px 15px 5px 15px; font-size: 18px; }
+.tarjeta-pelicula p { 
+  margin: 0 15px 15px 15px; 
+  font-size: 14px; 
+  color: #9ca3af; 
+  flex-grow: 1; 
+  display: -webkit-box; 
+  -webkit-line-clamp: 3; 
+  -webkit-box-orient: vertical; 
+  overflow: hidden; 
+}
+
+.btn-primario { 
+  background-color: #00b4d8; 
+  color: white; 
+  border: none; 
+  padding: 12px; 
+  width: calc(100% - 30px); 
+  margin: 0 15px 15px 15px; 
+  border-radius: 6px; 
+  font-weight: bold; 
+  cursor: pointer; 
+  transition: background 0.2s;
+}
+.btn-primario:hover { background-color: #0096c7; }
+.btn-secundario { background: transparent; color: #00b4d8; border: 1px solid #00b4d8; padding: 8px 16px; border-radius: 6px; cursor: pointer; margin-bottom: 20px; font-weight: bold; }
+.btn-secundario:hover { background: #00b4d8; color: white; }
+
+/* --- PANTALLA 2: Detalles y Horarios (Split View) --- */
+.detalles-pelicula {
+  display: flex;
+  gap: 40px;
+  margin-top: 20px;
+  align-items: flex-start;
+  animation: aparecer 0.4s ease-out;
+}
+
+.col-izq { flex-shrink: 0; }
+
+.col-izq img {
+  width: 300px; 
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  object-fit: cover;
+}
+
+.col-der {
+  flex: 1; 
+  display: flex;
+  flex-direction: column;
+}
+
+.col-der h2 {
+  font-size: 42px;
+  color: #00b4d8; 
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.sinopsis-completa {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #e5e7eb;
+  margin-bottom: 40px;
+  text-align: justify;
+}
+
+.col-der h3 {
+  font-size: 20px;
+  color: #ffffff;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #374151;
+  padding-bottom: 10px;
+  display: inline-block;
+}
+
+.lista-horarios { display: flex; gap: 15px; flex-wrap: wrap; }
+
+.btn-horario { 
+  background-color: #374151; 
+  color: #e5e7eb; 
+  border: none;
+  padding: 12px 24px; 
+  border-radius: 8px; 
+  cursor: pointer; 
+  transition: all 0.2s; 
+  font-size: 16px; 
+  font-weight: bold;
+}
+
+.btn-horario:hover { 
+  background-color: #4b5563; 
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* --- PANTALLA 3: Sala de Cine --- */
+.sala-interactiva { max-width: 800px; margin: 0 auto; text-align: center; }
+.advertencia { background: rgba(231, 76, 60, 0.2); border: 1px solid #e74c3c; color: #ff7675; padding: 15px; border-radius: 8px; margin: 20px 0; }
+
+.pantalla { 
+  background: linear-gradient(to bottom, rgba(0, 180, 216, 0.4), transparent); 
+  color: #00b4d8; 
+  border-top: 2px solid #00b4d8;
+  padding: 10px; 
+  border-radius: 5px 5px 30px 30px; 
+  margin-bottom: 40px; 
+  margin-top: 20px;
+  font-weight: bold; 
+  letter-spacing: 5px; 
+  height: 25px;
+  box-shadow: 0 -5px 15px rgba(0, 180, 216, 0.2);
+}
+
+.sala { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; justify-content: center; max-width: 320px; margin: 0 auto; }
+
+.asiento { 
+  background-color: #374151; 
+  color: transparent; 
+  height: 45px; 
+  border-radius: 8px; 
+  font-weight: bold; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  cursor: pointer; 
+  transition: all 0.2s; 
+}
+.asiento:hover:not(.ocupado) { background-color: #4b5563; }
+.asiento.ocupado { background-color: #9ca3af; cursor: not-allowed; opacity: 0.5; } 
+.asiento.seleccionado { background-color: #00b4d8; color: white; box-shadow: 0 0 10px rgba(0, 180, 216, 0.5); transform: scale(1.05); } 
+
+.acciones { margin-top: 30px; background-color: #1a222c; padding: 20px; border-radius: 12px; border: 1px solid #374151; max-width: 400px; margin-left: auto; margin-right: auto; }
+.btn-comprar { background-color: #00b4d8; color: white; padding: 14px 24px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 15px; font-size: 16px; transition: 0.2s; }
+.btn-comprar:hover:not(:disabled) { background-color: #0096c7; }
+.btn-comprar:disabled { background-color: #4b5563; cursor: not-allowed; color: #9ca3af; }
+
+/* --- PANTALLA 4: Boleto QR --- */
+.boleto-exito { text-align: center; animation: aparecer 0.5s ease-out; }
+.ticket-card { 
+  background-color: #1a222c; 
+  border: 1px solid #374151;
+  border-radius: 16px; 
+  padding: 30px; 
+  max-width: 380px; 
+  margin: 20px auto; 
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+.ticket-card h3 { color: #00b4d8; margin-top: 0; font-size: 24px; }
+.qr-container { background: white; padding: 15px; border-radius: 12px; display: inline-block; margin: 15px 0; }
+.nota { color: #9ca3af; font-size: 13px; font-style: italic; }
+
+/* --- PANTALLA 5: Validador de Boleto (Estilo Recibo) --- */
+.validador-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.tarjeta-valida {
+  background-color: #f3f4f6; 
+  border-radius: 16px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 450px;
+  color: #1f2937;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+}
+
+.cabecera-verde {
+  background-color: #22c55e; 
+  color: white;
+  text-align: center;
+  padding: 15px;
+}
+
+.cabecera-verde h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.cuerpo-tarjeta {
+  padding: 25px;
+}
+
+.info-principal {
+  display: flex;
+  gap: 20px;
+}
+
+.info-principal img {
+  width: 120px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.info-principal .textos h3 {
+  color: #111827;
+  margin-top: 0;
+  font-size: 22px;
+}
+
+.info-principal .textos p {
+  color: #4b5563;
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.info-secundaria {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  text-align: center;
+}
+
+.columna {
+  display: flex;
+  flex-direction: column;
+}
+
+.etiqueta {
+  font-size: 12px;
+  color: #9ca3af;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.valor {
+  font-size: 18px;
+  color: #1f2937;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.pie-tarjeta {
+  text-align: center;
+  color: #9ca3af;
+  font-size: 12px;
+  padding-bottom: 20px;
+}
+
+@keyframes aparecer {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Diseño responsivo para pantallas pequeñas y celulares */
+@media (max-width: 768px) {
+  .detalles-pelicula {
+    flex-direction: column;
+    align-items: center;
+  }
+  .col-izq img {
+    width: 100%;
+    max-width: 300px;
+  }
+  .col-der h2 {
+    font-size: 32px;
+    text-align: center;
+  }
+  .lista-horarios {
+    justify-content: center;
+  }
+  .info-principal {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}

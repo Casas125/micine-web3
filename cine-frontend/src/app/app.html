@@ -1,0 +1,173 @@
+<div class="cine-container">
+  <div class="header">
+    <h1>🍿 CineMax</h1>
+    
+    <button *ngIf="!walletConectada" (click)="conectar()" class="btn-conectar">
+      🦊 Conectar MetaMask
+    </button>
+    
+    <div *ngIf="walletConectada" class="info-wallet" style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
+      
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <button 
+          (click)="obtenerTokens()" 
+          [disabled]="cargando" 
+          style="background: #27ae60; color: white; border: none; padding: 8px 12px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: background 0.2s;">
+          {{ cargando ? 'Procesando...' : '🎁 Faucet: Obtener 100 CIN' }}
+        </button>
+        
+        <span style="font-weight: bold; color: #16a085;">
+          🟢 Conectado: {{ walletConectada.substring(0, 6) }}...{{ walletConectada.substring(38) }}
+        </span>
+      </div>
+
+      <div style="background: #e67e22; color: white; padding: 6px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; max-width: 400px; text-align: right; border-left: 4px solid #d35400;">
+        ⚠️ Recuerda importar el Token en MetaMask para ver tu saldo: 
+        <code style="background: rgba(0,0,0,0.15); padding: 2px 4px; border-radius: 3px; font-size: 11px; word-break: break-all;">
+          {{ tokenAddressVisual }}
+        </code>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div *ngIf="vistaActual === 'catalogo'" class="catalogo">
+    <h2>En Cartelera</h2>
+    <div class="grid-peliculas">
+      <div *ngFor="let peli of peliculas" class="tarjeta-pelicula">
+        <img [src]="peli.imagen" [alt]="peli.titulo"> 
+        <h3>{{ peli.titulo }}</h3>
+        <p>{{ peli.sinopsis }}</p>
+        <button (click)="verHorarios(peli)" class="btn-primario">Ver Detalles</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="vistaActual === 'horarios'" class="horarios">
+    <button (click)="volver('catalogo')" class="btn-secundario">⬅ Volver al Catálogo</button>
+    
+    <div class="detalles-pelicula">
+      <div class="col-izq">
+        <img [src]="peliculaSeleccionada.imagen" [alt]="peliculaSeleccionada.titulo">
+      </div>
+      
+      <div class="col-der">
+        <h2>{{ peliculaSeleccionada.titulo }}</h2>
+        <p class="sinopsis-completa">{{ peliculaSeleccionada.sinopsis }}</p>
+        
+        <h3>Comprar Boletos</h3>
+        <div class="lista-horarios">
+          <button 
+            *ngFor="let horario of peliculaSeleccionada.horarios" 
+            (click)="verSala(horario)"
+            class="btn-horario">
+            Sala {{ horario.idFuncion }} - {{ horario.hora }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="vistaActual === 'sala' && !boletoComprado" class="sala-interactiva">
+    <button (click)="volver('horarios')" class="btn-secundario">⬅ Volver a Detalles</button>
+    <h2>Función: {{ peliculaSeleccionada.titulo }} - {{ horarioSeleccionado.hora }}</h2>
+    
+    <div *ngIf="!walletConectada" class="advertencia">
+      Debes conectar tu billetera de MetaMask para ver la disponibilidad real de la sala.
+    </div>
+
+    <div *ngIf="walletConectada">
+      <div class="pantalla">PANTALLA</div>
+      
+      <div class="sala">
+        <div 
+          *ngFor="let asiento of asientos" 
+          class="asiento" 
+          [ngClass]="{'ocupado': asiento.ocupado, 'seleccionado': asientoSeleccionado === asiento.id}"
+          (click)="seleccionarAsiento(asiento.id, asiento.ocupado)">
+          {{ asiento.id }}
+        </div>
+      </div>
+
+      <div class="acciones" *ngIf="asientoSeleccionado">
+        <h3>🎟️ Asiento #{{ asientoSeleccionado }}</h3>
+        <p>Precio: 10 CIN Tokens</p>
+        <button (click)="comprar()" [disabled]="cargando" class="btn-comprar">
+          {{ cargando ? 'Procesando en Sepolia...' : 'Pagar y Mintear NFT' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="boletoComprado" class="boleto-exito">
+    <h2>🎉 ¡Compra Exitosa!</h2>
+    <p>Tu Boleto NFT ha sido asegurado e inscrito en la blockchain de Sepolia.</p>
+    
+    <div class="ticket-card">
+      <h3>🎬 {{ peliculaSeleccionada.titulo }}</h3>
+      <p><strong>Hora:</strong> {{ horarioSeleccionado.hora }}</p>
+      <p><strong>Asiento:</strong> #{{ asientoComprado }}</p>
+      
+      <div class="qr-container">
+        <qrcode 
+          [qrdata]="datosQR" 
+          [width]="200" 
+          [errorCorrectionLevel]="'M'">
+        </qrcode>
+      </div>
+      <p class="nota">Presenta este QR en la entrada de la sala.</p>
+    </div>
+
+    <br><br>
+    <button (click)="volver('catalogo')" class="btn-primario" style="max-width: 300px; margin: 0 auto; display: block;">
+      Volver a la Cartelera
+    </button>
+  </div>
+
+  <div *ngIf="vistaActual === 'validador'" class="validador-container">
+    <div class="tarjeta-valida">
+      <div class="cabecera-verde">
+        <h2>Boleto Válido</h2>
+      </div>
+      
+      <div class="cuerpo-tarjeta">
+        <div class="info-principal">
+          <img [src]="ticketEscaneado.imagen" alt="Poster">
+          <div class="textos">
+            <h3>{{ ticketEscaneado.pelicula }}</h3>
+            <p><strong>Cliente:</strong> Usuario Web3</p>
+            <p><strong>Fecha:</strong> {{ ticketEscaneado.fecha }}</p>
+          </div>
+        </div>
+
+        <hr style="border-color: #e5e7eb; margin: 20px 0;">
+
+        <div class="info-secundaria">
+          <div class="columna">
+            <span class="etiqueta">SALA</span>
+            <span class="valor">Sala Web3</span>
+          </div>
+          <div class="columna">
+            <span class="etiqueta">HORARIO</span>
+            <span class="valor">{{ ticketEscaneado.hora }}</span>
+          </div>
+          <div class="columna">
+            <span class="etiqueta">ASIENTO</span>
+            <span class="valor">#{{ ticketEscaneado.asiento }}</span>
+          </div>
+          <div class="columna">
+            <span class="etiqueta">BOLETOS</span>
+            <span class="valor">1</span>
+          </div>
+        </div>
+      </div>
+      <p class="pie-tarjeta">¡Gracias por tu compra! Disfruta la función.</p>
+    </div>
+    
+    <br>
+    <button (click)="volver('catalogo')" class="btn-secundario" style="margin: 0 auto; display: block;">
+      Ir al Catálogo de Cine
+    </button>
+  </div>
+</div>
